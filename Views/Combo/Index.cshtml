@@ -1,0 +1,76 @@
+﻿@model Rocku.Models.Combo
+
+<div class="container p-3">
+    <div class="row pt-3">
+        <div class="col-6">
+            <h2 class="" text-primary">Combo List</h2>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <div class="container p-2">
+        <div class="row pt-3">
+            <div class="col-6">
+                @if (Model.AppTable.Count() > 0 && Model.CatTable.Count() > 0) {
+                    <table class="table table-bordered table-dark table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Application Name
+                                </th>
+                                <th class="text-right">
+                                    Display Order
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var obj in (from a in Model.AppTable join b in Model.CatTable on a.Category equals b.Name select new { a.Name, b.DisplayOrder }).Distinct().OrderBy(m => m.DisplayOrder).ThenBy(n => n.Name)) {
+                                <tr>
+                                    <td width="60%">@obj.Name</td>
+                                    <td width="40%" class="text-right">@obj.DisplayOrder</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                } else {
+                    <p> No table exists.</p>
+                }
+            </div>
+            <div class="col-6">
+                @if (Model.AppTable.Count() > 0 && Model.CatTable.Count() > 0) {
+                    <table class="table table-bordered table-dark table-striped " style="width:100%">
+                        <thead>
+                            <tr>
+                                <th class="text-center">
+                                    Id
+                                </th>
+                                <th class="text-center">
+                                    Application Name
+                                </th>
+                                <th class="text-center">
+                                    Category
+                                </th>
+                                <th class="text-right">
+                                    Display Order
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var obj in (from a in Model.AppTable join b in Model.CatTable on a.Category equals b.Name select new { b.Id,a.Name, a.Category, b.DisplayOrder }).Distinct().OrderBy(m => m.DisplayOrder).ThenBy(n => n.Name)) {
+                                <tr>
+                                    <td width="5%" class="text-center">@obj.Id</td>
+                                    <td width="30%">@obj.Name</td>
+                                    <td width="20%">@obj.Category</td>
+                                    <td width="25%" class="text-right">@obj.DisplayOrder</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                } else {
+                    <p> No table exists.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
